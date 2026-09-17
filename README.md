@@ -9,6 +9,10 @@
 3. Build Command 使用 `npm run build`，Output Directory 为 `dist`（已在 vercel.json 配置）。
 4. 点击 Deploy。无需环境变量。
 
+配置文件已通过 `framework: null` 强制使用 Other 静态部署，覆盖项目框架预设。本地预览服务器位于 `scripts/preview.mjs`，并通过 `.vercelignore` 排除，生产站点只提供 `dist` 静态文件，不需要 Vercel Functions。
+
+如果旧部署出现 `500 FUNCTION_INVOCATION_FAILED`，请部署包含此配置的最新 main 提交。不要对旧提交反复 Redeploy；确认 Root Directory 为仓库根目录。若仍失败，请提供部署网址和对应部署日志。
+
 ## 更新图片
 
 编辑 `dist/gallery.js` 中的 `window.STFU_IMAGES` 数组：

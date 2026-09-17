@@ -1,1 +1,1 @@
-{"name":"stfu-gallery","version":"1.0.0","private":true,"scripts":{"dev":"node server.mjs","build":"node --check dist/app.js && node --check dist/gallery.js"}}
+{"name":"stfu-gallery","version":"1.0.0","private":true,"scripts":{"dev":"node scripts/preview.mjs","build":"node --check dist/app.js && node --check dist/gallery.js"}}
