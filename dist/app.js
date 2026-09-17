@@ -119,21 +119,6 @@ for (const [index, item] of (window.STFU_IMAGES || []).entries()) {
   gallery.append(card);
 }
 scheduleLayout();
-document.querySelector('.motion-toggle').addEventListener('click', (event) => {
-  const paused = document.querySelector('.ticker').classList.toggle('paused');
-  event.currentTarget.setAttribute('aria-pressed', String(paused));
-  event.currentTarget.setAttribute('aria-label', paused ? 'Play announcement' : 'Pause announcement');
-  event.currentTarget.textContent = paused ? '▶' : 'Ⅱ';
-});
-
-// Pause in background tabs; scrolling must not toggle the ticker's rendering layer.
-const ticker = document.querySelector('.ticker');
-function updateTickerActivity() {
-  ticker.classList.toggle('inactive', document.hidden);
-}
-document.addEventListener('visibilitychange', updateTickerActivity);
-updateTickerActivity();
-
 // One native audio element streams the track and loops without timers or audio buffers.
 const music = document.querySelector('#background-music');
 const musicToggle = document.querySelector('.music-toggle');

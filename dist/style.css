@@ -15,3 +15,5 @@
 .card img:not(.loaded){aspect-ratio:1}.gallery{overflow-anchor:none}
 
 .brand-tools{display:flex;align-items:center;gap:12px}.music-toggle{display:grid;place-items:center;flex-shrink:0;width:40px;height:40px;padding:8px;border:1px solid #354158;border-radius:5px;background:#101826;color:#a7b6cd;cursor:pointer}.music-toggle svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.music-toggle .sound-wave{display:none}.music-toggle[aria-pressed=true]{color:var(--gold);border-color:#a18b37}.music-toggle[aria-pressed=true] .sound-wave{display:block}.music-toggle[aria-pressed=true] .sound-off{display:none}@media(max-width:700px){.brand-tools{gap:6px}.brand-tools .avatar{width:40px;height:40px}.music-toggle{width:32px;height:36px;padding:5px}.music-toggle svg{width:20px;height:20px}}
+
+.ticker{display:block}.ticker .announcement-text{width:100%;max-width:1440px;margin:0 auto;padding:12px clamp(16px,5vw,64px);white-space:normal;overflow-wrap:anywhere;text-align:center;line-height:1.6}
