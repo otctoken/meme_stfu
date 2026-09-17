@@ -2,9 +2,9 @@
 // 下方为 ImageKit 官方公开示例占位图，请替换为自己的社区图片。
 window.STFU_IMAGES = [
   { src: './assets/stfu-logo.jpeg', title: 'STFU ORIGINAL', alt: 'STFU portrait with golden lightning and blue background', featured: true },
-  { src: 'https://ik.imagekit.io/4xf5jb5grv/HSSSgxJbEAA3E2x.jpg', title: 'STFU ORIGINAL TG', alt: 'Can t offer any suggestions?' },
+   { src: 'https://ik.imagekit.io/4xf5jb5grv/sticker.webp', title: 'Leading Web3', alt: 'Leading Web3' },
   { src: 'https://ik.imagekit.io/4xf5jb5grv/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-09-17%20093627.png', title: 'The best game console', alt: 'The best game console' },
-  { src: 'https://ik.imagekit.io/4xf5jb5grv/sticker.webp', title: 'Leading Web3', alt: 'Leading Web3' },
+  { src: 'https://ik.imagekit.io/4xf5jb5grv/HSSSgxJbEAA3E2x.jpg', title: 'STFU ORIGINAL TG', alt: 'Can t offer any suggestions?' },
   { src: 'https://ik.imagekit.io/4xf5jb5grv/stic22ker.webp', title: 'An opportunity to get rich quick', alt: 'An opportunity to get rich quick' },
   { src: 'https://ik.imagekit.io/4xf5jb5grv/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-09-17%20095619.png', title: 'Excellent API', alt: 'Excellent API' },
   { src: 'https://ik.imagekit.io/4xf5jb5grv/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-09-17%20094416.png', title: 'Very safe', alt: 'Very safe' },
