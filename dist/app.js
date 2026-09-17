@@ -137,7 +137,7 @@ updateTickerActivity();
 // One native audio element streams the track and loops without timers or audio buffers.
 const music = document.querySelector('#background-music');
 const musicToggle = document.querySelector('.music-toggle');
-music.volume = 0.35;
+music.volume = 0.525;
 let musicWanted = false;
 let musicAttempt = 0;
 function stopMusicGestureRetry() {
