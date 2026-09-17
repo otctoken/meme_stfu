@@ -1,4 +1,29 @@
 const gallery = document.querySelector('#gallery');
+// Assign images left to right; stack each column without cropping or row gaps.
+let layoutFrame;
+function scheduleLayout() {
+  cancelAnimationFrame(layoutFrame);
+  layoutFrame = requestAnimationFrame(() => {
+    const columns = Number(getComputedStyle(gallery).getPropertyValue('--columns')) || 1;
+    const width = gallery.getBoundingClientRect().width / columns;
+    const heights = Array(columns).fill(0);
+    [...gallery.children].forEach((card, index) => {
+      const column = index % columns;
+      card.style.width = `${width}px`;
+      card.style.left = `${column * width}px`;
+      card.style.top = `${heights[column]}px`;
+      heights[column] += card.getBoundingClientRect().height;
+    });
+    gallery.style.height = `${Math.max(...heights)}px`;
+  });
+}
+let previousWidth = -1;
+new ResizeObserver(([entry]) => {
+  if (entry.contentRect.width !== previousWidth) {
+    previousWidth = entry.contentRect.width;
+    scheduleLayout();
+  }
+}).observe(gallery);
 const viewer = document.createElement('dialog');
 viewer.className = 'image-viewer';
 viewer.setAttribute('aria-label', 'Enlarged image. Click anywhere or press Escape to close.');
@@ -15,6 +40,7 @@ for (const [index, item] of (window.STFU_IMAGES || []).entries()) {
   img.alt = item.alt || item.title || 'Community image';
   img.loading = index < 4 ? 'eager' : 'lazy';
   img.decoding = 'async';
+  img.addEventListener('load', scheduleLayout);
   const caption = document.createElement('figcaption');
   const title = document.createElement('span');
   title.textContent = item.title || 'STFU COMMUNITY';
@@ -40,6 +66,7 @@ for (const [index, item] of (window.STFU_IMAGES || []).entries()) {
   card.append(imageButton, caption);
   gallery.append(card);
 }
+scheduleLayout();
 document.querySelector('.motion-toggle').addEventListener('click', (event) => {
   const paused = document.querySelector('.ticker').classList.toggle('paused');
   event.currentTarget.setAttribute('aria-pressed', String(paused));
