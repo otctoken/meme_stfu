@@ -138,6 +138,7 @@ updateTickerActivity();
 const music = document.querySelector('#background-music');
 const musicToggle = document.querySelector('.music-toggle');
 music.volume = 0.525;
+music.muted = false;
 let musicWanted = false;
 let musicAttempt = 0;
 function stopMusicGestureRetry() {
