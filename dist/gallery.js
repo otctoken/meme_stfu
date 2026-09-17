@@ -3,7 +3,7 @@
 window.STFU_IMAGES = [
   { src: './assets/stfu-logo.jpeg', title: 'STFU ORIGINAL', alt: 'STFU portrait with golden lightning and blue background', featured: true },
   { src: 'https://ik.imagekit.io/4xf5jb5grv/HSSSgxJbEAA3E2x.jpg', title: 'STFU ORIGINAL TG', alt: 'Can t offer any suggestions?' },
-  { src: 'https://ik.imagekit.io/ikmedia/blue-bmw.jpg', title: 'BLUE HOUR', alt: 'Blue BMW' },
+  { src: 'https://ik.imagekit.io/4xf5jb5grv/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-09-17%20093627.png', title: 'The best game console', alt: 'The best game console' },
   { src: 'https://ik.imagekit.io/demo/default-image.jpg', title: 'TAKE A BREATH', alt: 'ImageKit sample landscape' },
   { src: 'https://ik.imagekit.io/ikmedia/docs_images/examples/beach2.webp', title: 'OFF THE GRID', alt: 'Beach and sea' },
   { src: 'https://ik.imagekit.io/ikmedia/coffee-machine.jpg', title: 'STAY AWAKE', alt: 'Coffee machine' },
