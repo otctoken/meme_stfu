@@ -35,6 +35,7 @@ viewer.addEventListener('close', () => document.body.classList.remove('viewer-op
 for (const [index, item] of (window.STFU_IMAGES || []).entries()) {
   const card = document.createElement('figure');
   card.className = `card${item.featured ? ' featured' : ''}`;
+  card.style.setProperty('--frame-color', `hsl(${Math.floor(Math.random() * 360)} 85% 65%)`);
   const img = document.createElement('img');
   img.src = item.src;
   img.alt = item.alt || item.title || 'Community image';
