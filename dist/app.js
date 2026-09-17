@@ -140,6 +140,16 @@ const musicToggle = document.querySelector('.music-toggle');
 music.volume = 0.35;
 let musicWanted = false;
 let musicAttempt = 0;
+function stopMusicGestureRetry() {
+  document.removeEventListener('click', retryMusicOnGesture, true);
+  document.removeEventListener('keydown', retryMusicOnGesture, true);
+}
+function retryMusicOnGesture(event) {
+  if (!event.isTrusted || event.target.closest?.('.music-toggle')) return;
+  if (event.type === 'keydown' && (event.repeat || !['Enter', ' '].includes(event.key))) return;
+  stopMusicGestureRetry();
+  void startMusic();
+}
 function syncMusicButton() {
   const playing = !music.paused && !music.error;
   const label = playing ? 'Turn off background music' : 'Play background music';
@@ -152,14 +162,22 @@ async function startMusic() {
   const attempt = ++musicAttempt;
   try {
     await music.play();
+    stopMusicGestureRetry();
     if (!musicWanted) music.pause();
-  } catch {
-    // Autoplay can be blocked on mobile. The button remains available to start it.
-    if (attempt === musicAttempt) musicWanted = false;
+  } catch (error) {
+    if (attempt === musicAttempt) {
+      musicWanted = false;
+      // Browsers require a real user gesture for sound when autoplay is blocked.
+      if (error.name === 'NotAllowedError') {
+        document.addEventListener('click', retryMusicOnGesture, true);
+        document.addEventListener('keydown', retryMusicOnGesture, true);
+      }
+    }
   }
   syncMusicButton();
 }
 musicToggle.addEventListener('click', () => {
+  stopMusicGestureRetry();
   if (musicWanted) {
     musicWanted = false;
     musicAttempt++;
