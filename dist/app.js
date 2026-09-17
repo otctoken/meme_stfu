@@ -126,15 +126,10 @@ document.querySelector('.motion-toggle').addEventListener('click', (event) => {
   event.currentTarget.textContent = paused ? '▶' : 'Ⅱ';
 });
 
-// Only animate the announcement while it is on screen and the tab is visible.
+// Pause in background tabs; scrolling must not toggle the ticker's rendering layer.
 const ticker = document.querySelector('.ticker');
-let tickerVisible = true;
 function updateTickerActivity() {
-  ticker.classList.toggle('inactive', !tickerVisible || document.hidden);
+  ticker.classList.toggle('inactive', document.hidden);
 }
-new IntersectionObserver(([entry]) => {
-  tickerVisible = entry.isIntersecting;
-  updateTickerActivity();
-}).observe(ticker);
 document.addEventListener('visibilitychange', updateTickerActivity);
 updateTickerActivity();
