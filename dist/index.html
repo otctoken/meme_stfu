@@ -12,9 +12,15 @@
   <script src="./app.js" defer></script>
 </head>
 <body>
+  <audio id="background-music" src="./assets/stfu.mp3" loop preload="none"></audio>
   <div class="site-header">
   <header class="header">
-    <a class="avatar" href="./" aria-label="STFU home"><img src="./assets/stfu-logo.jpeg" alt="STFU lightning portrait" width="64" height="64"></a>
+    <div class="brand-tools">
+      <a class="avatar" href="./" aria-label="STFU home"><img src="./assets/stfu-logo.jpeg" alt="STFU lightning portrait" width="64" height="64"></a>
+      <button class="music-toggle" type="button" aria-label="Play background music" aria-pressed="false" title="Play background music">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4Z"/><path class="sound-wave" d="M16 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/><path class="sound-off" d="m17 9 5 6m0-6-5 6"/></svg>
+      </button>
+    </div>
     <a class="wordmark" href="./" aria-label="STFU home">STFU<span aria-hidden="true">⚡</span></a>
     <nav aria-label="Community links">
       <a class="tg" href="https://t.me/+z4vfJU8IHqA2YzQ1" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 3-4 18-6-5-3 3 1-6 9-7-11 6-5-2Z"/></svg>TG</a>

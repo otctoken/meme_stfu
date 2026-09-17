@@ -133,3 +133,47 @@ function updateTickerActivity() {
 }
 document.addEventListener('visibilitychange', updateTickerActivity);
 updateTickerActivity();
+
+// One native audio element streams the track and loops without timers or audio buffers.
+const music = document.querySelector('#background-music');
+const musicToggle = document.querySelector('.music-toggle');
+music.volume = 0.35;
+let musicWanted = false;
+let musicAttempt = 0;
+function syncMusicButton() {
+  const playing = !music.paused && !music.error;
+  const label = playing ? 'Turn off background music' : 'Play background music';
+  musicToggle.setAttribute('aria-pressed', String(playing));
+  musicToggle.setAttribute('aria-label', label);
+  musicToggle.title = label;
+}
+async function startMusic() {
+  musicWanted = true;
+  const attempt = ++musicAttempt;
+  try {
+    await music.play();
+    if (!musicWanted) music.pause();
+  } catch {
+    // Autoplay can be blocked on mobile. The button remains available to start it.
+    if (attempt === musicAttempt) musicWanted = false;
+  }
+  syncMusicButton();
+}
+musicToggle.addEventListener('click', () => {
+  if (musicWanted) {
+    musicWanted = false;
+    musicAttempt++;
+    music.pause();
+    syncMusicButton();
+  } else {
+    void startMusic();
+  }
+});
+music.addEventListener('play', syncMusicButton);
+music.addEventListener('pause', syncMusicButton);
+music.addEventListener('error', () => {
+  musicWanted = false;
+  syncMusicButton();
+  musicToggle.title = 'Music could not load. Click to retry.';
+});
+void startMusic();
