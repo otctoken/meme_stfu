@@ -1,4 +1,12 @@
 const gallery = document.querySelector('#gallery');
+const viewer = document.createElement('dialog');
+viewer.className = 'image-viewer';
+viewer.setAttribute('aria-label', 'Enlarged image. Click anywhere or press Escape to close.');
+const fullImage = document.createElement('img');
+viewer.append(fullImage);
+document.body.append(viewer);
+viewer.addEventListener('click', () => viewer.close());
+viewer.addEventListener('close', () => document.body.classList.remove('viewer-open'));
 for (const [index, item] of (window.STFU_IMAGES || []).entries()) {
   const card = document.createElement('figure');
   card.className = `card${item.featured ? ' featured' : ''}`;
@@ -18,7 +26,18 @@ for (const [index, item] of (window.STFU_IMAGES || []).entries()) {
     img.alt = 'STFU — image temporarily unavailable';
     title.textContent = 'IMAGE UNAVAILABLE';
   }, { once: true });
-  card.append(img, caption);
+  const imageButton = document.createElement('button');
+  imageButton.type = 'button';
+  imageButton.className = 'image-button';
+  imageButton.setAttribute('aria-label', `Enlarge ${img.alt}`);
+  imageButton.addEventListener('click', () => {
+    fullImage.src = img.currentSrc || img.src;
+    fullImage.alt = img.alt;
+    viewer.showModal();
+    document.body.classList.add('viewer-open');
+  });
+  imageButton.append(img);
+  card.append(imageButton, caption);
   gallery.append(card);
 }
 document.querySelector('.motion-toggle').addEventListener('click', (event) => {
