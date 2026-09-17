@@ -2,17 +2,21 @@ const gallery = document.querySelector('#gallery');
 // Assign images left to right; stack each column without cropping or row gaps.
 let layoutFrame;
 function scheduleLayout() {
-  cancelAnimationFrame(layoutFrame);
+  if (layoutFrame) return;
   layoutFrame = requestAnimationFrame(() => {
+    layoutFrame = 0;
     const columns = Number(getComputedStyle(gallery).getPropertyValue('--columns')) || 1;
     const width = gallery.getBoundingClientRect().width / columns;
     const heights = Array(columns).fill(0);
-    [...gallery.children].forEach((card, index) => {
+    const cards = [...gallery.children];
+    // Batch writes, then reads, then positioning: avoid a forced layout per image.
+    cards.forEach(card => { card.style.width = `${width}px`; });
+    const cardHeights = cards.map(card => card.getBoundingClientRect().height);
+    cards.forEach((card, index) => {
       const column = index % columns;
-      card.style.width = `${width}px`;
       card.style.left = `${column * width}px`;
       card.style.top = `${heights[column]}px`;
-      heights[column] += card.getBoundingClientRect().height;
+      heights[column] += cardHeights[index];
     });
     gallery.style.height = `${Math.max(...heights)}px`;
   });
@@ -28,31 +32,65 @@ const viewer = document.createElement('dialog');
 viewer.className = 'image-viewer';
 viewer.setAttribute('aria-label', 'Enlarged image. Click anywhere or press Escape to close.');
 const fullImage = document.createElement('img');
+fullImage.decoding = 'async';
+let zoomRequest = null;
 viewer.append(fullImage);
 document.body.append(viewer);
 viewer.addEventListener('click', () => viewer.close());
-viewer.addEventListener('close', () => document.body.classList.remove('viewer-open'));
+viewer.addEventListener('close', () => {
+  document.body.classList.remove('viewer-open');
+  fullImage.removeAttribute('src');
+  if (zoomRequest) {
+    zoomRequest.onload = zoomRequest.onerror = null;
+    zoomRequest.removeAttribute('src');
+    zoomRequest = null;
+  }
+});
+function imagekitUrl(src, width) {
+  const url = new URL(src, document.baseURI);
+  if (url.hostname !== 'ik.imagekit.io' || url.searchParams.has('ik-s')) return src;
+  const previous = url.searchParams.get('tr');
+  url.searchParams.set('tr', `${previous ? previous + ':' : ''}w-${width},q-80`);
+  return url.href;
+}
 for (const [index, item] of (window.STFU_IMAGES || []).entries()) {
   const card = document.createElement('figure');
   card.className = `card${item.featured ? ' featured' : ''}`;
   card.style.setProperty('--frame-color', `hsl(${Math.floor(Math.random() * 360)} 85% 65%)`);
   const img = document.createElement('img');
-  img.src = item.src;
   img.alt = item.alt || item.title || 'Community image';
   img.loading = index < 4 ? 'eager' : 'lazy';
   img.decoding = 'async';
-  img.addEventListener('load', scheduleLayout);
+  if (imagekitUrl(item.src, 480) !== item.src) {
+    img.sizes = '(max-width: 360px) 90vw, (max-width: 1000px) 45vw, (max-width: 1499px) 30vw, 360px';
+    img.srcset = [240, 480, 720, 1080].map(width => `${imagekitUrl(item.src, width)} ${width}w`).join(', ');
+  }
+  img.src = imagekitUrl(item.src, 720);
+  img.addEventListener('load', () => {
+    img.classList.add('loaded');
+    scheduleLayout();
+  });
   const caption = document.createElement('figcaption');
   const title = document.createElement('span');
   title.textContent = item.title || 'STFU COMMUNITY';
   const number = document.createElement('span');
   number.textContent = String(index + 1).padStart(2, '0');
   caption.append(title, number);
+  let originalRetried = false;
+  let fallbackUsed = false;
   img.addEventListener('error', () => {
+    img.removeAttribute('srcset');
+    if (!originalRetried && img.src !== new URL(item.src, document.baseURI).href) {
+      originalRetried = true;
+      img.src = item.src;
+      return;
+    }
+    if (fallbackUsed) return;
+    fallbackUsed = true;
     img.src = './assets/stfu-logo.jpeg';
     img.alt = 'STFU — image temporarily unavailable';
     title.textContent = 'IMAGE UNAVAILABLE';
-  }, { once: true });
+  });
   const imageButton = document.createElement('button');
   imageButton.type = 'button';
   imageButton.className = 'image-button';
@@ -62,6 +100,19 @@ for (const [index, item] of (window.STFU_IMAGES || []).entries()) {
     fullImage.alt = img.alt;
     viewer.showModal();
     document.body.classList.add('viewer-open');
+    // Show the cached thumbnail immediately, then upgrade only the opened image.
+    if (!fallbackUsed) {
+      const request = new Image();
+      zoomRequest = request;
+      request.decoding = 'async';
+      request.onload = () => {
+        if (zoomRequest !== request || !viewer.open) return;
+        fullImage.src = request.src;
+        zoomRequest = null;
+      };
+      request.onerror = () => { if (zoomRequest === request) zoomRequest = null; };
+      request.src = imagekitUrl(item.src, Math.min(1600, Math.ceil(window.innerWidth * window.devicePixelRatio)));
+    }
   });
   imageButton.append(img);
   card.append(imageButton, caption);
@@ -74,3 +125,16 @@ document.querySelector('.motion-toggle').addEventListener('click', (event) => {
   event.currentTarget.setAttribute('aria-label', paused ? 'Play announcement' : 'Pause announcement');
   event.currentTarget.textContent = paused ? '▶' : 'Ⅱ';
 });
+
+// Only animate the announcement while it is on screen and the tab is visible.
+const ticker = document.querySelector('.ticker');
+let tickerVisible = true;
+function updateTickerActivity() {
+  ticker.classList.toggle('inactive', !tickerVisible || document.hidden);
+}
+new IntersectionObserver(([entry]) => {
+  tickerVisible = entry.isIntersecting;
+  updateTickerActivity();
+}).observe(ticker);
+document.addEventListener('visibilitychange', updateTickerActivity);
+updateTickerActivity();
