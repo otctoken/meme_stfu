@@ -11,7 +11,6 @@ window.STFU_IMAGES = [
   { src: 'https://ik.imagekit.io/4xf5jb5grv/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-09-17%20095228.png', title: 'It s very fast.', alt: 'fast' },
   { src: 'https://ik.imagekit.io/4xf5jb5grv/sticke43212r.webp', title: 'There is no gap.', alt: 'There is no gap.' },
   { src: 'https://ik.imagekit.io/demo/medium_cafe_B1iTdD0C.jpg', title: 'THE WAITING ROOM', alt: 'Café' },
-  { src: 'https://ik.imagekit.io/4xf5jb5grv/sticke43212r.webp', title: 'LET THEM COOK', alt: 'Food photography' },
-  { src: 'https://ik.imagekit.io/ikmedia/docs_images/features/image-transformations/car.jpeg', title: 'ON THE MOVE', alt: 'Car' },
-  { src: 'https://ik.imagekit.io/ikmedia/docs_images/examples/cake.png', title: 'SOMETHING SWEET', alt: 'Cake' }
+  { src: 'https://ik.imagekit.io/4xf5jb5grv/st13331icker.webp', title: 'LET THEM COOK', alt: 'Food photography' },
+  { src: 'https://ik.imagekit.io/4xf5jb5grv/stic133333ker.webp', title: 'STFU', alt: 'STFU' },
 ];
