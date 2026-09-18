@@ -11,9 +11,10 @@ window.STFU_IMAGES = [
   { src: 'https://ik.imagekit.io/4xf5jb5grv/stic22ker.webp', title: 'An opportunity to get rich quick', alt: 'An opportunity to get rich quick' },
     { src: 'https://ik.imagekit.io/4xf5jb5grv/st13331icker.webp', title: 'LET THEM COOK', alt: 'Food photography' },
   { src: 'https://ik.imagekit.io/4xf5jb5grv/sticke43212r.png', title: 'There is no gap.', alt: 'There is no gap.' },
+   { src: 'https://ik.imagekit.io/4xf5jb5grv/5ff31068-2a2a-4cb8-b64c-65332c13e963.png', title: 'Giving gifts', alt: 'Giving gifts' },
   { src: 'https://ik.imagekit.io/4xf5jb5grv/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-09-17%20171211.png', title: 'TVL', alt: 'TVL' },
   { src: 'https://ik.imagekit.io/4xf5jb5grv/stic133333ker.webp', title: 'STFU', alt: 'STFU' },
    { src: 'https://ik.imagekit.io/4xf5jb5grv/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-09-17%20171037.png', title: 'price', alt: 'price' },
-  { src: 'https://ik.imagekit.io/4xf5jb5grv/5ff31068-2a2a-4cb8-b64c-65332c13e963.png', title: 'Giving gifts', alt: 'Giving gifts' },
+ 
    
 ];
